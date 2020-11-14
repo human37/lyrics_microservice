@@ -4,6 +4,7 @@ from urllib.parse import parse_qs
 from lyrics import getLyrics, removeCertainWords
 
 app = Flask(__name__)
+app.secret_key = 'afhawiq89q2fbq92'
 CORS(app)
 
 @app.route('/')
@@ -13,17 +14,18 @@ def main():
 @app.route('/lyrics', methods = ['POST'])
 def lyrics_endpoint():
     data = parse_qs(request.get_data().decode('utf-8'))
-    artist = data['artist'][0]
-    if ' + ' in artist:
-        artist = artist.split('+')[0]
-    title = data['title'][0]
-    if '(' in title:
-        title = title.split('(')[0]
-    lyrics = getLyrics(artist, title)
-    formatted_lyrics = removeCertainWords(lyrics)
-    return jsonify(formatted_lyrics)
-    # except:
-    #     return 'Data was not formatted properly.'
+    try:
+        artist = data['artist'][0]
+        if ' + ' in artist:
+            artist = artist.split('+')[0]
+        title = data['title'][0]
+        if '(' in title:
+            title = title.split('(')[0]
+        lyrics = getLyrics(artist, title)
+        formatted_lyrics = removeCertainWords(lyrics)
+        return jsonify(formatted_lyrics)
+    except:
+        return 'Data was not formatted properly.'
 
 if __name__ == '__main__':
     app.debug = True
