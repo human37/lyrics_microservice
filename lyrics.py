@@ -22,18 +22,6 @@ def getLyrics(artist, title):
         lyrics = lyrics.replace('</div>', '')
     return lyrics
 
-# data: {
-# lines: [
-# line: {
-# words: []
-# guess: true,
-# guess_index: [],
-# options: [].
-# correct: word
-# }
-# ]
-# }
-
 def getRhymes(word):
     words = RHYMES.rhyming_list(word=word, maxResults=4)
     formatted_words = []
