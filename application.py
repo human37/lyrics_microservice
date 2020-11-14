@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from urllib.parse import parse_qs
-from lyrics import getLyrics
+from lyrics import getLyrics, removeCertainWords
 
 app = Flask(__name__)
 CORS(app)
@@ -19,7 +19,8 @@ def lyrics_endpoint():
             artist = artist.split('+')[0]
         title = data['title'][0]
         lyrics = getLyrics(artist, title)
-        return jsonify(lyrics)
+        formatted_lyrics = removeCertainWords(lyrics)
+        return jsonify(formatted_lyrics)
     except:
         return 'Data was not formatted properly.'
 
