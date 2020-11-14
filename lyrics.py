@@ -17,3 +17,5 @@ def getLyrics(artist, title):
         lyrics = lyrics.replace('<div class="lyricsbreak">', '')
         lyrics = lyrics.replace('</div>', '')
     return lyrics
+
+def removeCertainWords(lyrics):
