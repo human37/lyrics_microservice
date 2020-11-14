@@ -23,9 +23,6 @@ def getLyrics(artist, title):
     print(lyrics)
     return lyrics
 
-<<<<<<< HEAD
-def removeCertainWords(lyrics):
-=======
 def getRhymes(word):
     words = RHYMES.rhyming_list(word=word, maxResults=4)
     formatted_words = []
@@ -55,4 +52,3 @@ def removeCertainWords(lyrics):
     for line in lyrics:
         data.append(processLine(line))
     return data
->>>>>>> 8ecfe6324fc1c1f5202964c7fe8a58ad65fb0e49
