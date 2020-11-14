@@ -6,7 +6,7 @@ from random import randint, randrange
 RHYMES = RhymeBrain()
 
 def getLyrics(artist, title):
-    pageurl = "https://makeitpersonal.co/l3yrics?artist=" + artist + "&title=" + title
+    pageurl = "https://makeitpersonal.co/lyrics?artist=" + artist + "&title=" + title
     lyrics = get(pageurl).text.strip()
     if lyrics == "Sorry, We don't have lyrics for this song yet.":
         wiki_url = "https://lyrics.fandom.com/wiki/"
@@ -20,6 +20,7 @@ def getLyrics(artist, title):
         lyrics = lyrics.replace('<div class="lyricbox">', '')
         lyrics = lyrics.replace('<div class="lyricsbreak">', '')
         lyrics = lyrics.replace('</div>', '')
+    print(lyrics)
     return lyrics
 
 def getRhymes(word):

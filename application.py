@@ -28,5 +28,5 @@ def lyrics_endpoint():
         return 'Data was not formatted properly.'
 
 if __name__ == '__main__':
-    app.debug = True
+#app.debug = True
     app.run()
