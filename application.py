@@ -18,6 +18,8 @@ def lyrics_endpoint():
         if ' + ' in artist:
             artist = artist.split('+')[0]
         title = data['title'][0]
+        if '(' in title:
+            title = title.split('(')[0]
         lyrics = getLyrics(artist, title)
         formatted_lyrics = removeCertainWords(lyrics)
         return jsonify(formatted_lyrics)
