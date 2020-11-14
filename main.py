@@ -67,6 +67,6 @@ def run():
     server.serve_forever()
 
 if __name__ == '__main__':
-    server_address = ('localhost', int(os.environ.get('PORT', '8000')))
+    server_address = ('', int(os.environ.get('PORT', '8000')))
     httpd = HTTPServer(server_address, MyHTTPRequestHandler)
     httpd.serve_forever()
