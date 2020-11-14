@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from urllib.parse import parse_qs
 from lyrics import getLyrics
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/')
 def main():
