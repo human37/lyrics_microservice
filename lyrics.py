@@ -1,6 +1,5 @@
 from requests import get
 from bs4 import BeautifulSoup
-from random import randint, randrange
 
 def getLyrics(artist, title):
     pageurl = "https://makeitpersonal.co/lyrics?artist=" + artist + "&title=" + title
@@ -19,23 +18,6 @@ def getLyrics(artist, title):
         lyrics = lyrics.replace('</div>', '')
     # print(lyrics)
     return lyrics
-
-def process_line(word, line):
-
-    if randint(0, 3) == 0:
-        line = line.split(' ')
-        if len(line) > 0:
-            for _ in range(3):
-                random_index = randrange(0, len(line))
-                random_word = line[random_index]
-                if len(random_word) > 4:
-                    break
-                else:
-                    pass
-            else:
-                return { 'words' : line, 'guess' : False, 'guess_index' : None,'options' : None, 'correct' : None }
-            return { 'words' : line, 'guess' : True, 'guess_index' : random_index,'options' : getRhymes(random_word), 'correct' : random_word }
-    return { 'words' : line, 'guess' : False, 'guess_index' : None,'options' : None, 'correct' : None }
 
 def parseLyrics(lyrics):
     lines = lyrics.split('\n')
