@@ -1,9 +1,6 @@
 from requests import get
 from bs4 import BeautifulSoup
-from pyrhyme import RhymeBrain
 from random import randint, randrange
-
-RHYMES = RhymeBrain()
 
 def getLyrics(artist, title):
     pageurl = "https://makeitpersonal.co/lyrics?artist=" + artist + "&title=" + title
@@ -20,17 +17,11 @@ def getLyrics(artist, title):
         lyrics = lyrics.replace('<div class="lyricbox">', '')
         lyrics = lyrics.replace('<div class="lyricsbreak">', '')
         lyrics = lyrics.replace('</div>', '')
-    print(lyrics)
+    # print(lyrics)
     return lyrics
 
-def getRhymes(word):
-    words = RHYMES.rhyming_list(word=word, maxResults=4)
-    formatted_words = []
-    for word in words:
-        formatted_words.append(str(word['word']))
-    return formatted_words
+def process_line(word, line):
 
-def processLine(line):
     if randint(0, 3) == 0:
         line = line.split(' ')
         if len(line) > 0:
@@ -46,9 +37,41 @@ def processLine(line):
             return { 'words' : line, 'guess' : True, 'guess_index' : random_index,'options' : getRhymes(random_word), 'correct' : random_word }
     return { 'words' : line, 'guess' : False, 'guess_index' : None,'options' : None, 'correct' : None }
 
-def removeCertainWords(lyrics):
-    lyrics = lyrics.split('\n')
-    data = []
-    for line in lyrics:
-        data.append(processLine(line))
-    return data
+def parseLyrics(lyrics):
+    lines = lyrics.split('\n')
+    words = []
+    for line in lines:
+        for word in line.split():
+            words.append(word)
+    parsed_data = []
+    guessing = []
+    i = j = l = 0
+    while i < len(words):
+        # Every 12 words
+        if j > 12:
+            # If it is a good word
+            if len(words[i]) > 4 and words[i][0] != '(':
+                w = words[i]
+                # Find the whole line this word was in
+                while l < len(lines):
+                    if w in lines[l]:
+                        idx = lines[l].split().index(w)
+                        parsed_data.append({
+                            'words' : lines[l].split(), 'guessing' : True, 'guess_index' : idx, 'correct' : w
+                        })
+                        guessing.append(l)
+                        break
+                    else:
+                        parsed_data.append({
+                            'words' : lines[l], 'guessing' : False, 'guess_index' : None, 'correct' : None
+                        })
+                        l += 1
+                        
+                j = 0
+            else:
+                j += 1
+        else:
+            j += 1
+        i += 1
+
+    return parsed_data
