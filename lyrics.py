@@ -55,9 +55,16 @@ def parseLyrics(lyrics):
                 # Find the whole line this word was in
                 while l < len(lines):
                     if w in lines[l]:
-                        idx = lines[l].split().index(w)
+                        words_arr = lines[l].split()
+                        idx = words_arr.index(w)
+                        # Check for trailing commas
+                        if w[-1] in ',':
+                            char = w[-1]
+                            w = w[0:-1]
+                            words_arr[idx] = w[0:-1]
+                            words_arr[idx + 1] = f"{char} {words_arr[idx + 1]}"
                         parsed_data.append({
-                            'words' : lines[l].split(), 'guessing' : True, 'guess_index' : idx, 'correct' : w
+                            'words' : words_arr, 'guessing' : True, 'guess_index' : idx, 'correct' : w
                         })
                         guessing.append(l)
                         break
